@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sw_vers:*)",
+      "Bash(chmod:*)",
+      "Bash(/Users/ludovandenbosch/Code/CleanMyMac/clean_mac.sh:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nInitial commit: Add CleanMyMac script for macOS Tahoe\n\nAdd comprehensive cleanup script for macOS developers including:\n- Docker, VMware Fusion, VSCode cleanup\n- Node.js, Python, Homebrew package manager cleanup\n- Git repository optimization\n- System caches and logs cleanup\n- Xcode and iOS simulator cleanup\n- Browser cache cleanup\n- Safe mode with dry-run option\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
