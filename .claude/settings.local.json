@@ -6,7 +6,10 @@
       "Bash(/Users/ludovandenbosch/Code/CleanMyMac/clean_mac.sh:*)",
       "Bash(git init:*)",
       "Bash(git add:*)",
-      "Bash(git commit -m \"$(cat <<''EOF''\nInitial commit: Add CleanMyMac script for macOS Tahoe\n\nAdd comprehensive cleanup script for macOS developers including:\n- Docker, VMware Fusion, VSCode cleanup\n- Node.js, Python, Homebrew package manager cleanup\n- Git repository optimization\n- System caches and logs cleanup\n- Xcode and iOS simulator cleanup\n- Browser cache cleanup\n- Safe mode with dry-run option\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
+      "Bash(git commit -m \"$(cat <<''EOF''\nInitial commit: Add CleanMyMac script for macOS Tahoe\n\nAdd comprehensive cleanup script for macOS developers including:\n- Docker, VMware Fusion, VSCode cleanup\n- Node.js, Python, Homebrew package manager cleanup\n- Git repository optimization\n- System caches and logs cleanup\n- Xcode and iOS simulator cleanup\n- Browser cache cleanup\n- Safe mode with dry-run option\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(gh repo create:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nAdd space freed summary to cleanup script\n\n- Track initial and final disk usage in KB\n- Calculate total space freed during cleanup\n- Add human-readable conversion for KB/MB/GB\n- Display cleanup summary with:\n  - Total space freed (highlighted in green)\n  - Initial and final disk usage comparison\n- Log space freed to cleanup log file\n- Only show summary when not in dry-run mode\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push)"
     ],
     "deny": [],
     "ask": []

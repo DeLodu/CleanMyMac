@@ -81,9 +81,9 @@ convert_kb_to_human() {
     if [ "$kb" -lt 1024 ]; then
         echo "${kb}KB"
     elif [ "$kb" -lt 1048576 ]; then
-        echo "$(awk "BEGIN {printf \"%.2f\", $kb/1024}")MB"
+        echo "$(awk -v kb="$kb" 'BEGIN {printf "%.2f", kb/1024}')MB"
     else
-        echo "$(awk "BEGIN {printf \"%.2f\", $kb/1048576}")GB"
+        echo "$(awk -v kb="$kb" 'BEGIN {printf "%.2f", kb/1048576}')GB"
     fi
 }
 
