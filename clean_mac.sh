@@ -24,6 +24,11 @@ LOG_FILE="$HOME/.cleanup_log_$(date +%Y%m%d_%H%M%S).txt"
 DOWNLOADS_AGE_DAYS=30  # Clean downloads older than this
 SAFE_MODE=true  # Require confirmations for destructive operations
 
+# Track space freed
+SPACE_FREED=0
+INITIAL_DISK_USAGE_KB=0
+FINAL_DISK_USAGE_KB=0
+
 ################################################################################
 # Helper Functions
 ################################################################################
@@ -65,6 +70,21 @@ get_size() {
 
 get_disk_usage() {
     df -h / | awk 'NR==2 {print $3 " used of " $2 " (" $5 " full)"}'
+}
+
+get_disk_usage_kb() {
+    df -k / | awk 'NR==2 {print $3}'
+}
+
+convert_kb_to_human() {
+    local kb=$1
+    if [ "$kb" -lt 1024 ]; then
+        echo "${kb}KB"
+    elif [ "$kb" -lt 1048576 ]; then
+        echo "$(awk "BEGIN {printf \"%.2f\", $kb/1024}")MB"
+    else
+        echo "$(awk "BEGIN {printf \"%.2f\", $kb/1048576}")GB"
+    fi
 }
 
 confirm_action() {
@@ -543,6 +563,7 @@ EOF
 
     # Show initial disk usage
     print_header "Initial Disk Usage"
+    INITIAL_DISK_USAGE_KB=$(get_disk_usage_kb)
     print_info "$(get_disk_usage)"
 
     log_message "Cleanup started - Mode: $([ "$DRY_RUN" = true ] && echo "DRY RUN" || echo "LIVE")"
@@ -564,7 +585,32 @@ EOF
 
     # Show final disk usage
     print_header "Final Disk Usage"
+    FINAL_DISK_USAGE_KB=$(get_disk_usage_kb)
     print_info "$(get_disk_usage)"
+
+    # Calculate space freed
+    if [ "$DRY_RUN" = false ]; then
+        SPACE_FREED=$((INITIAL_DISK_USAGE_KB - FINAL_DISK_USAGE_KB))
+
+        print_header "Cleanup Summary"
+
+        if [ "$SPACE_FREED" -gt 0 ]; then
+            local space_human=$(convert_kb_to_human $SPACE_FREED)
+            print_success "Total space freed: ${GREEN}${space_human}${NC}"
+            log_message "Total space freed: $space_human"
+        elif [ "$SPACE_FREED" -lt 0 ]; then
+            # Disk usage increased (shouldn't happen, but handle it)
+            local space_increase=$((FINAL_DISK_USAGE_KB - INITIAL_DISK_USAGE_KB))
+            local space_human=$(convert_kb_to_human $space_increase)
+            print_warning "Disk usage increased by: $space_human (files may have been created during cleanup)"
+        else
+            print_info "No measurable space was freed"
+        fi
+
+        echo ""
+        print_info "Initial disk usage: $(convert_kb_to_human $INITIAL_DISK_USAGE_KB)"
+        print_info "Final disk usage:   $(convert_kb_to_human $FINAL_DISK_USAGE_KB)"
+    fi
 
     log_message "Cleanup completed"
 
